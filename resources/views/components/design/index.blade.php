@@ -63,6 +63,79 @@
                 <x-ui.input label="Password" name="password" type="password" />
                 <x-ui.input label="Disabled Input" disabled value="Cannot change this" />
                 <x-ui.input label="Input with Error" error="This field is required" />
+                
+                <x-ui.select label="Select Option" name="select">
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                </x-ui.select>
+
+                <x-ui.textarea label="Description" placeholder="Enter details..." />
+
+                <div class="flex items-center gap-6 mt-4">
+                    <x-ui.checkbox label="Remember Me" name="remember" />
+                    <x-ui.toggle label="Enable Notifications" name="notifications" checked />
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Display -->
+        <section>
+            <h4 class="text-lg font-bold text-secondary-900 mb-6 border-b pb-2">Tables (`x-ui.table`)</h4>
+            <x-ui.table :headers="['Name', 'Title', 'Email', 'Role']">
+                <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-secondary-900 sm:pl-6">Lindsay Walton</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-secondary-500">Front-end Developer</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-secondary-500">lindsay.walton@example.com</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-secondary-500">Member</td>
+                </tr>
+            </x-ui.table>
+        </section>
+
+        <!-- Feedback -->
+        <section>
+            <h4 class="text-lg font-bold text-secondary-900 mb-6 border-b pb-2">Feedback</h4>
+            
+            <div class="mb-8">
+                <h5 class="text-md font-semibold text-secondary-800 mb-4">Alerts (`x-ui.alert`)</h5>
+                <x-ui.alert type="info" title="Information">
+                    This is an info alert with a title.
+                </x-ui.alert>
+                <x-ui.alert type="success" dismissible>
+                    Operation successful! (Dismissible)
+                </x-ui.alert>
+                <x-ui.alert type="warning">
+                    Warning: Check your input.
+                </x-ui.alert>
+                <x-ui.alert type="error">
+                    Error: Something went wrong.
+                </x-ui.alert>
+            </div>
+
+            <div class="mb-8" x-data="{ modalOpen: false }">
+                <h5 class="text-md font-semibold text-secondary-800 mb-4">Modals (`x-ui.modal`)</h5>
+                <x-ui.button @click="$dispatch('open-modal', 'demo-modal')">Open Modal</x-ui.button>
+
+                <x-ui.modal name="demo-modal" title="Demo Modal">
+                    <p class="text-secondary-600">This is a modal body text. It supports any content.</p>
+                    <x-slot name="footer">
+                        <x-ui.button variant="primary" @click="$dispatch('close-modal', 'demo-modal')">Confirm</x-ui.button>
+                        <x-ui.button variant="secondary" @click="$dispatch('close-modal', 'demo-modal')">Cancel</x-ui.button>
+                    </x-slot>
+                </x-ui.modal>
+            </div>
+
+            <div>
+                <h5 class="text-md font-semibold text-secondary-800 mb-4">Toasts (`x-ui.toast`)</h5>
+                <div class="flex gap-4">
+                    <x-ui.button @click="$dispatch('notify', { type: 'success', message: 'Successfully saved!' })">
+                        Trigger Success Toast
+                    </x-ui.button>
+                    <x-ui.button variant="danger" @click="$dispatch('notify', { type: 'error', message: 'Something went wrong.' })">
+                        Trigger Error Toast
+                    </x-ui.button>
+                </div>
+                <!-- Global Toast Container (usually in layout, here for demo) -->
+                <x-ui.toast />
             </div>
         </section>
     </div>

@@ -155,6 +155,7 @@
         </div>
     </div>
     
+    <x-ui.toast />
     @livewireScripts
 </body>
 </html>
