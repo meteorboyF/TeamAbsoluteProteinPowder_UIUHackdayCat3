@@ -9,10 +9,10 @@ use Illuminate\Support\Collection;
 
 class Comments extends Component
 {
-    public $model; // The model instance (e.g., Post, User)
+    public $model; // The model instance
     public $newComment = '';
+    public $replyingTo = null; // ID of the comment being replied to
 
-    // We can pass model_id and model_type if strict typing with Model is tricky in mount
     public $modelId;
     public $modelType;
 
@@ -23,19 +23,35 @@ class Comments extends Component
         $this->modelType = get_class($model);
     }
 
+    public function replyTo($commentId)
+    {
+        $this->replyingTo = $commentId;
+        $this->newComment = ''; // Clear previous input
+    }
+
+    public function cancelReply()
+    {
+        $this->replyingTo = null;
+        $this->newComment = '';
+    }
+
     public function postComment(CommentService $service)
     {
         $this->validate([
             'newComment' => 'required|string|max:1000',
         ]);
 
-        // Simulating a user ID for now as we might not have Auth fully set up by Fardeen yet
-        // In production: auth()->id()
         $userId = auth()->id() ?? 'anon_user';
 
-        $service->createComment($this->model, $this->newComment, $userId);
+        $service->createComment(
+            target: $this->model,
+            content: $this->newComment,
+            userId: $userId,
+            parentId: $this->replyingTo // Pass parent ID
+        );
 
         $this->newComment = '';
+        $this->replyingTo = null; // Reset reply state
     }
 
     public function render(CommentService $service)

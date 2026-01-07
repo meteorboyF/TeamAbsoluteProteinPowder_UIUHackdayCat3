@@ -17,7 +17,24 @@ class Comment extends Model
         'user_id',
         'commentable_id',
         'commentable_type',
+        'parent_id',
     ];
+
+    /**
+     * Get the parent comment (if this is a reply).
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
+
+    /**
+     * Get the replies to this comment.
+     */
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id')->orderBy('created_at', 'asc');
+    }
 
     /**
      * Get the parent commentable model (post, video, etc.).
