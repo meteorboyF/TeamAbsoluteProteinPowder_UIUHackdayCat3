@@ -12,7 +12,7 @@
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
-        "mongodb/laravel-mongodb": "^5.0"
+        "mongodb/laravel-mongodb": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

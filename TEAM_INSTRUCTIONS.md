@@ -6,8 +6,12 @@
 The UI System is live! Stop writing custom HTML. Use the shiny new "Lego Bricks" I built.
 
 ## ⚡ IMMEDIATE ACTION REQUIRED
-1.  **Git Sync:** Run `git pull origin UI_Branch` (or main if merged).
-2.  **Verify:** Visit `/components/design` to see the components in action.
+1.  **Git Sync:** Run `git pull origin main`.
+2.  **Environment Setup:**
+    *   `cp .env.example .env`
+    *   `php artisan key:generate`
+    *   **CRITICAL:** Set `DB_PORT=27020` (MongoDB is non-standard) & `DB_CONNECTION=mongodb`.
+3.  **Verify:** Visit `/components/design` to see the components in action.
 
 ---
 
