@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'roles', // Added for RBAC
+        'banned_at', // Feature 17: User Banning
     ];
 
     /**
@@ -44,6 +45,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'banned_at' => 'datetime',
             'password' => 'hashed',
         ];
     }

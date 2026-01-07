@@ -36,6 +36,18 @@
 -   **System Health:** `/admin/health` monitor.
 -   **Analytics:** `TrackVisits` middleware is **ACTIVE**. It logs every public request.
 
+### 5. 🛡️ Deep Ops (New!)
+-   **Security:** `AuditLog` tracks all model changes. `User` can be banned.
+-   **Config:** `Feature::active('key')` for flags. Global Settings UI at `/admin/settings`.
+-   **Nav:** Menu Builder at `/admin/menu`. Use `MenuItem::getTree()` to render.
+-   **Webhooks:** Send POST to `/api/webhooks/{source}` to log external events.
+
+### 6. 🤖 Universal Assistant (New!)
+-   **Chat Widget:** Floating bot on every page (`<livewire:chat-widget />`).
+-   **Brain:** `ChatBotService` + `BotPersona`.
+-   **Control:** Configure personas at `/admin/personas`.
+-   **Knowledge:** Auto-searches `Faq` model.
+
 ---
 
 ## 🤝 INTEGRATION POINTS

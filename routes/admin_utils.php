@@ -48,4 +48,10 @@ Route::middleware(['web', 'auth', 'role:admin'])->prefix('admin')->group(functio
         }
         return redirect('/dashboard');
     })->name('impersonate.stop');
+
+    // Phase 5: Deep Ops Features
+    Route::get('/security', \App\Livewire\Admin\SecuritySettings::class)->name('admin.security');
+    Route::get('/settings', \App\Livewire\Admin\SystemSettings::class)->name('admin.settings');
+    Route::get('/menu', \App\Livewire\Admin\MenuBuilder::class)->name('admin.menu');
+    Route::get('/personas', \App\Livewire\Admin\PersonaManager::class)->name('admin.personas');
 });
