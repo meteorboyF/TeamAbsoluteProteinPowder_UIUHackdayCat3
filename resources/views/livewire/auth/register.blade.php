@@ -1,57 +1,60 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Create your account
-            </h2>
-        </div>
-        <form class="mt-8 space-y-6" wire:submit.prevent="register">
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="name" class="sr-only">Name</label>
-                    <input id="name" name="name" type="text" wire:model="name" required
-                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                        placeholder="Full Name">
-                </div>
-                <div>
-                    <label for="email-address" class="sr-only">Email address</label>
-                    <input id="email-address" name="email" type="email" wire:model="email" required
-                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                        placeholder="Email address">
-                </div>
-                <div>
-                    <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" wire:model="password" required
-                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                        placeholder="Password">
-                </div>
-                <div>
-                    <label for="password_confirmation" class="sr-only">Confirm Password</label>
-                    <input id="password_confirmation" name="password_confirmation" type="password"
-                        wire:model="password_confirmation" required
-                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                        placeholder="Confirm Password">
-                </div>
-            </div>
+<div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-secondary-50">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-secondary-900 font-display">
+            Create your account
+        </h2>
+    </div>
 
-            @if($errors->any())
-                <div class="text-red-500 text-sm text-center">
-                    {{ $errors->first() }}
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <x-ui.card>
+            <form class="space-y-6" wire:submit.prevent="register">
+                
+                <x-ui.input label="Full Name" 
+                            name="name" 
+                            type="text" 
+                            wire:model="name" 
+                            required 
+                            autofocus />
+
+                <x-ui.input label="Email address" 
+                            name="email" 
+                            type="email" 
+                            wire:model="email" 
+                            required />
+
+                <x-ui.input label="Password" 
+                            name="password" 
+                            type="password" 
+                            wire:model="password" 
+                            required />
+
+                <x-ui.input label="Confirm Password" 
+                            name="password_confirmation" 
+                            type="password" 
+                            wire:model="password_confirmation" 
+                            required />
+                
+                @if($errors->any())
+                    <x-ui.alert type="error" title="Error">
+                        {{ $errors->first() }}
+                    </x-ui.alert>
+                @endif
+
+                <div>
+                    <x-ui.button type="submit" class="w-full justify-center">
+                        Register
+                    </x-ui.button>
                 </div>
-            @endif
+            </form> 
 
-            <div>
-                <button type="submit"
-                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Register
-                </button>
-            </div>
-
-            <div class="text-center text-sm">
-                <a href="{{ route('login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
-                    Already have an account? Sign in
-                </a>
-            </div>
-        </form>
+            <x-slot name="footer">
+                <div class="text-center text-sm">
+                    <span class="text-secondary-600">Already have an account?</span>
+                    <a href="{{ route('login') }}" class="font-medium text-primary-600 hover:text-primary-500">
+                        Sign in
+                    </a>
+                </div>
+            </x-slot>
+        </x-ui.card>
     </div>
 </div>
