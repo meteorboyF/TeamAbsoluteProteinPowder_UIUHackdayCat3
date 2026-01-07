@@ -14,6 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('web')
                 ->group(base_path('routes/admin.php'));
             Route::middleware('web')
+                ->group(base_path('routes/admin_utils.php'));
+            Route::middleware('web')
                 ->group(base_path('routes/features.php'));
             Route::middleware('web')
                 ->group(base_path('routes/components.php'));
@@ -22,6 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
+        ]);
+        $middleware->web(append: [
+            \App\Http\Middleware\TrackVisits::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
