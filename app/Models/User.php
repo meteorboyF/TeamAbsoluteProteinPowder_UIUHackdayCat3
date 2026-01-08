@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'roles', // Added for RBAC
         'banned_at', // Feature 17: User Banning
+        'partner_id', // Project US: Couples linking
     ];
 
     /**
@@ -56,5 +57,38 @@ class User extends Authenticatable
     public function hasRole(string $role): bool
     {
         return in_array($role, $this->roles ?? []);
+    }
+
+    /**
+     * Get the user's partner (Project US)
+     */
+    public function partner()
+    {
+        return $this->belongsTo(User::class, 'partner_id');
+    }
+
+    /**
+     * Get the user's current active status (Project US)
+     */
+    public function currentStatus()
+    {
+        return $this->hasOne(Status::class)->where('is_active', true)->latest();
+    }
+
+    /**
+     * Get user's total XP (Project US)
+     */
+    public function totalXp(): int
+    {
+        return $this->hasMany(XpLog::class)->sum('xp_amount');
+    }
+
+    /**
+     * Get user's current level (Project US)
+     */
+    public function level(): int
+    {
+        $gamification = app(\App\Services\Features\GamificationService::class);
+        return $gamification->getUserLevel($this->id);
     }
 }

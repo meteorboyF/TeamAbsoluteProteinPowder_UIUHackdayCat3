@@ -16,6 +16,22 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    // -- PROJECT US ROUTES --
+    // The Vault (Sharing a Secret)
+    Route::get('/vault', function () {
+        return view('livewire.features.vault'); // Mizi will build this
+    })->name('vault');
+
+    // The Space (New Language)
+    Route::get('/space', function () {
+        return view('livewire.features.space'); // Fardeen will build this backend
+    })->name('space');
+
+    // Resonance (Heart Not Mouth)
+    Route::get('/conflict', function () {
+        return view('livewire.features.conflict-chat'); // Zarif will build this
+    })->name('conflict');
+
     Route::get('/profile', \App\Livewire\Core\Profile::class)->name('profile');
 
     Route::post('/logout', function () {
