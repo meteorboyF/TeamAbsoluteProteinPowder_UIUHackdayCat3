@@ -3,6 +3,7 @@
 namespace App\Livewire\Features;
 
 use Livewire\Component;
+use App\Services\Core\GeminiService;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -42,75 +43,51 @@ class AiCupid extends Component
         }
     }
 
-    public function analyze()
+    public function analyze(GeminiService $gemini)
     {
-        // Simulate AI "Thinking" delay
-        sleep(1); 
-        
-        $this->generateGiftIdeas();
-        $this->generateDateIdeas();
+        $this->generateGiftIdeas($gemini);
+        $this->generateDateIdeas($gemini);
         
         $this->isAnalyzing = false;
     }
 
-    public function generateGiftIdeas()
+    public function generateGiftIdeas(GeminiService $gemini)
     {
-        // Logic: Suggest gifts based on Partner's Mood
-        if (!$this->partnerMood) {
+        $mood = $this->partnerMood ? str_replace('mood_', '', $this->partnerMood) : 'unknown';
+        
+        $prompt = "Suggest 3 unique gift ideas for a partner whose current mood is '{$mood}'. 
+        Format as JSON array with keys: 'title', 'desc' (short description), 'icon' (single emoji). 
+        Raw JSON only.";
+
+        try {
+            $response = $gemini->generate($prompt);
+            $jsonStr = str_replace(['```json', '```'], '', $response);
+            $this->giftSuggestions = json_decode($jsonStr, true) ?? [];
+        } catch (\Exception $e) {
             $this->giftSuggestions = [
                 ['title' => 'Mystery Box', 'desc' => 'A surprise to brighten their day.', 'icon' => '🎁'],
                 ['title' => 'Open When... Letters', 'desc' => 'Handwritten notes for future moments.', 'icon' => '✉️'],
             ];
-            return;
-        }
-
-        switch ($this->partnerMood) {
-            case 'mood_blue': // Sad/Calm
-                $this->giftSuggestions = [
-                    ['title' => 'Comfort Care Package', 'desc' => 'Soft blanket, scented candle, and hot cocoa.', 'icon' => '🧸'],
-                    ['title' => 'Weighted Hoodie', 'desc' => 'Like a warm hug they can wear.', 'icon' => '🧥'],
-                    ['title' => 'Custom Playlist', 'desc' => 'Songs that say "I am here for you".', 'icon' => '🎵'],
-                ];
-                break;
-            case 'mood_red': // Intense/Passionate
-                $this->giftSuggestions = [
-                    ['title' => 'Adventure Date Box', 'desc' => 'Tools for a spontaneous road trip.', 'icon' => '🗺️'],
-                    ['title' => 'Bold Fragrance', 'desc' => 'Something intense and memorable.', 'icon' => '🧴'],
-                ];
-                break;
-            case 'mood_green': // Balanced
-                $this->giftSuggestions = [
-                    ['title' => 'Indoor Plant', 'desc' => 'Something to grow together.', 'icon' => '🪴'],
-                    ['title' => 'Journal Set', 'desc' => 'For shared thoughts and calm reflection.', 'icon' => '📓'],
-                ];
-                break;
-            default: // Yellow or others
-                $this->giftSuggestions = [
-                    ['title' => 'DIY Craft Kit', 'desc' => 'Create something fun together.', 'icon' => '🎨'],
-                    ['title' => 'Gourmet Snacks', 'desc' => 'Delicious treats to share.', 'icon' => '🍪'],
-                ];
         }
     }
 
-    public function generateDateIdeas()
+    public function generateDateIdeas(GeminiService $gemini)
     {
-        // Logic: Suggest dates based on Relationship Level
         $level = $this->relationshipLevel;
+        $context = $level > 5 ? "long-term soulmates" : "dating phase";
 
-        if ($level <= 2) { // Early stages
-            $this->dateSuggestions = [
+        $prompt = "Suggest 2 date ideas for a couple who are in the {$context} (Relationship Level {$level}). 
+        Format as JSON array with keys: 'title', 'desc', 'time' (duration). 
+        Raw JSON only.";
+
+        try {
+            $response = $gemini->generate($prompt);
+            $jsonStr = str_replace(['```json', '```'], '', $response);
+            $this->dateSuggestions = json_decode($jsonStr, true) ?? [];
+        } catch (\Exception $e) {
+             $this->dateSuggestions = [
                 ['title' => 'Coffee & Bookstore', 'desc' => 'Low pressure, high conversation.', 'time' => '2 hrs'],
                 ['title' => 'Arcade Night', 'desc' => 'Playful competition to break the ice.', 'time' => '3 hrs'],
-            ];
-        } elseif ($level <= 4) { // Serious
-            $this->dateSuggestions = [
-                ['title' => 'Cooking Class', 'desc' => 'Learn a new skill as a team.', 'time' => '4 hrs'],
-                ['title' => 'Hiking Trail', 'desc' => 'Nature walk with deep talks.', 'time' => 'Half Day'],
-            ];
-        } else { // Soulmates
-            $this->dateSuggestions = [
-                ['title' => 'Weekend Cabin Trip', 'desc' => 'Total disconnection together.', 'time' => 'Weekend'],
-                ['title' => 'Memory Lane Tour', 'desc' => 'Revisit the spot you first met.', 'time' => 'Evening'],
             ];
         }
     }
