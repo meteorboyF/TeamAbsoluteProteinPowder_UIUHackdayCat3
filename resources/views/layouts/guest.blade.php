@@ -1,39 +1,57 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-secondary-900 text-white antialiased dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Project US') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700|outfit:600,700,800" rel="stylesheet" />
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="flex min-h-full flex-col justify-center sm:px-6 lg:px-8 bg-secondary-950 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary-800 via-secondary-950 to-secondary-950">
-    <!-- Background effects -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-1/2 left-1/2 -ml-[40rem] w-[80rem] h-[80rem] rounded-full bg-primary-500/10 blur-3xl opacity-50"></div>
-        <div class="absolute top-0 right-0 -mr-20 w-[40rem] h-[40rem] rounded-full bg-primary-400/5 blur-3xl opacity-30"></div>
+<body class="font-sans antialiased">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 bg-gradient-to-br from-secondary-950 via-secondary-900 to-secondary-800">
+        <!-- Animated Gradient Orbs -->
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-primary-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
     </div>
 
-    <div class="relative sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-white font-display tracking-tight">
-            {{ config('app.name', 'AppLogo') }}
-        </h2>
-    </div>
-
-    <div class="relative mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <!-- Content -->
+    <div class="relative z-10">
         {{ $slot }}
     </div>
 
-    <x-ui.toast />
     @livewireScripts
+
+    <style>
+        @keyframes blob {
+            0%, 100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+    </style>
 </body>
 </html>

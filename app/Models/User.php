@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Illuminate\Foundation\Auth\User as Authenticatable;
-use MongoDB\Laravel\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -25,6 +25,8 @@ class User extends Authenticatable
         'roles', // Added for RBAC
         'banned_at', // Feature 17: User Banning
         'partner_id', // Project US: Couples linking
+        'xp', // Project US: Gamification
+        'partner_code', // Project US: Partner Linking Code
     ];
 
     /**
@@ -73,6 +75,14 @@ class User extends Authenticatable
     public function currentStatus()
     {
         return $this->hasOne(Status::class)->where('is_active', true)->latest();
+    }
+
+    /**
+     * Get all statuses for the user (Project US)
+     */
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
     }
 
     /**

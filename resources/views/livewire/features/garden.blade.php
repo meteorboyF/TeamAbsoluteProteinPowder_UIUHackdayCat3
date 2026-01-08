@@ -17,7 +17,10 @@
             </div>
         </div>
         <div class="mt-4 md:mt-0">
-            <x-ui.button wire:click="waterGarden" icon="heroicon-o-check" class="bg-blue-500 hover:bg-blue-600 border-blue-600 text-white">
+            <x-ui.button wire:click="waterGarden" class="bg-blue-500 hover:bg-blue-600 border-blue-600 text-white">
+                <svg class="w-4 h-4 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
                 💧 Water Garden (+50 XP)
             </x-ui.button>
         </div>

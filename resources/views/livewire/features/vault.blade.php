@@ -5,7 +5,10 @@
             <h1 class="text-3xl font-bold text-secondary-900 dark:text-white font-display">The Vault</h1>
             <p class="text-sm text-secondary-500 dark:text-secondary-400">Secure your shared memories & secrets.</p>
         </div>
-        <x-ui.button wire:click="$toggle('showUploadModal')" icon="heroicon-o-plus">
+        <x-ui.button wire:click="$toggle('showUploadModal')">
+            <svg class="w-4 h-4 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
             Add Memory
         </x-ui.button>
     </div>
@@ -20,15 +23,15 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($items as $item)
             @php
-                $isLocked = $item['is_locked'];
+                $isLocked = $item->isLocked($userLevel);
                 $blurClass = $isLocked ? 'blur-xl grayscale active:blur-0 active:grayscale-0 transition-all duration-700 cursor-pointer' : '';
             @endphp
             
             <div class="group relative aspect-square bg-secondary-100 dark:bg-white/5 rounded-2xl overflow-hidden border border-secondary-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
                 
                 <!-- Content Layer -->
-                @if($item['type'] === 'photo')
-                    <img src="{{ $item['url'] }}" alt="Memory" class="w-full h-full object-cover {{ $blurClass }}">
+                @if($item->type === 'photo')
+                    <img src="{{ $item->file_path }}" alt="Memory" class="w-full h-full object-cover {{ $blurClass }}">
                 @else
                     <!-- Audio Representation -->
                      <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 {{ $blurClass }}">
@@ -45,10 +48,10 @@
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                         </div>
                         <span class="text-white font-bold text-shadow-sm px-4 text-center">
-                            @if($item['unlock_type'] === 'date')
-                                Opens {{ \Carbon\Carbon::parse($item['unlock_value'])->format('M d, Y') }}
-                            @else
-                                Opens at Level {{ $item['unlock_value'] }}
+                            @if($item->unlock_at)
+                                Opens {{ $item->unlock_at->format('M d, Y') }}
+                            @elseif($item->unlock_level)
+                                Opens at Level {{ $item->unlock_level }}
                             @endif
                         </span>
                         <p class="text-white/60 text-xs mt-2 uppercase tracking-widest">Hold to Peek</p>
@@ -57,8 +60,8 @@
 
                 <!-- Info Overlay (Bottom) -->
                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <p class="text-white font-medium text-sm truncate">{{ $item['note'] }}</p>
-                    @if($item['type'] === 'audio')
+                    <p class="text-white font-medium text-sm truncate">{{ $item->note }}</p>
+                    @if($item->type === 'audio')
                          <div class="flex items-center gap-2 mt-2">
                             <div class="h-1 flex-1 bg-white/30 rounded-full overflow-hidden">
                                 <div class="h-full w-1/3 bg-white"></div>
@@ -71,7 +74,7 @@
         @endforeach
 
         <!-- Empty State -->
-        @if(count($items) === 0)
+        @if($items->count() === 0)
             <div class="col-span-full py-12 flex flex-col items-center justify-center text-secondary-400 dark:text-secondary-500 border-2 border-dashed border-secondary-200 dark:border-white/10 rounded-2xl">
                 <svg class="w-12 h-12 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <p>The vault is empty. Deposit a memory.</p>

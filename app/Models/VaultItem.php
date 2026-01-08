@@ -12,7 +12,9 @@ class VaultItem extends Model
         'user_id',
         'type',
         'file_path',
+        'note',
         'unlock_at',
+        'unlock_level',
         'is_hidden',
     ];
 
@@ -27,6 +29,28 @@ class VaultItem extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Check if item is locked (based on time OR level)
+     */
+    public function isLocked(?int $userLevel = null): bool
+    {
+        // Check date lock
+        if ($this->unlock_at) {
+            if ($this->unlock_at->isFuture()) {
+                return true;
+            }
+        }
+
+        // Check level lock
+        if ($this->unlock_level && $userLevel !== null) {
+            if ($userLevel < $this->unlock_level) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
