@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Message extends Model
@@ -19,6 +19,10 @@ class Message extends Model
         'chatable_type',
         'emotion', // Added for Project US: Resonance
         'metadata', // Added for Project US: Flexibility
+    ];
+
+    protected $casts = [
+        'metadata' => 'array',
     ];
 
     /**

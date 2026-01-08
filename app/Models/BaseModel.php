@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseModel extends Model
 {
-    // Common logic for all Mongo models
-    protected $connection = 'mongodb';
+    // Common logic for all SQL models
 }
