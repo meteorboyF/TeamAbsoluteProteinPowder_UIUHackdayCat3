@@ -20,7 +20,7 @@ class ConflictChat extends Component
         // Initial state
     }
 
-    public function sendMessage(AuraService $auraService)
+    public function sendMessage(AuraService $auraService, GamificationService $gamification)
     {
         if ($this->isLocked || empty(trim($this->newMessage))) {
             return;
@@ -45,6 +45,17 @@ class ConflictChat extends Component
 
         // Clear input
         $this->newMessage = '';
+
+        // Check if conflict is resolved (health at 100%)
+        if ($this->health >= 100) {
+            $gamification->awardXp(
+                auth()->id(),
+                'resolved_conflict',
+                100
+            );
+
+            session()->flash('message', '🎉 Conflict resolved! +100 XP');
+        }
     }
 
     public function unlockChat()

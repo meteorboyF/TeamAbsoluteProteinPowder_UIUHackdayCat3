@@ -19,6 +19,9 @@
             </div>
         </div>
 
+        <!-- Partner Pairing -->
+        @livewire('features.partner-pairing')
+
         <!-- Garden Visualization -->
         <x-ui.card>
             <div
@@ -62,6 +65,11 @@
         <!-- Daily Check-In -->
         <div>
             @livewire('features.daily-check-in')
+        </div>
+
+        <!-- Mood Timeline -->
+        <div class="mt-6">
+            @livewire('features.mood-timeline')
         </div>
 
         <!-- Insights Grid -->

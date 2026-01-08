@@ -109,9 +109,10 @@
 
 @script
 <script>
-    Echo.private('user.{{ auth()->id() }}')
+    Echo.channel('user.{{ auth()->id() }}')
         .listen('ChatUnlocked', (e) => {
             $wire.set('isLocked', false);
+             alert('💚 Your partner offered empathy. You can speak now.');
         });
 </script>
 @endscript
