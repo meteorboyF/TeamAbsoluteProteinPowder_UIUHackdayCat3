@@ -4,7 +4,7 @@
             <!-- Logo/Header -->
             <div class="text-center mb-8">
                 <h1 class="text-5xl font-display font-bold bg-gradient-to-r from-primary-500 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-3">
-                    Project US
+                    US
                 </h1>
                 <p class="text-white/60 text-lg">Welcome back to your relationship journey</p>
             </div>

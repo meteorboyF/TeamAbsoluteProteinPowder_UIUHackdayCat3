@@ -22,6 +22,12 @@ Route::middleware(['web', 'auth'])->group(function () {
     // Project US: AI Cupid (Smart Suggestions)
     Route::get('/features/cupid', \App\Livewire\Features\AiCupid::class)->name('features.cupid');
 
+    // Project US: New Mizi Features
+    Route::get('/features/gifts', \App\Livewire\Features\GiftSuggestions::class)->name('features.gift-suggestions');
+    Route::get('/features/marketplace', \App\Livewire\Features\Marketplace::class)->name('features.marketplace');
+    Route::get('/features/tiers', \App\Livewire\Features\ChatbotTiers::class)->name('features.chatbot-tiers');
+    Route::get('/features/dates', \App\Livewire\Features\DateIdeas::class)->name('features.date-ideas');
+
     // Zarif's Feature Routes (Chat, Uploads, Feeds)
 
     Route::get('/features/test', function () {

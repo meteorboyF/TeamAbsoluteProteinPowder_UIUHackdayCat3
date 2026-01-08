@@ -4,7 +4,7 @@
             <!-- Hero Section -->
             <div class="text-center mb-16">
                 <h1 class="text-6xl lg:text-8xl font-display font-bold bg-gradient-to-r from-primary-500 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 animate-pulse">
-                    Project US
+                    US
                 </h1>
                 <p class="text-2xl lg:text-3xl text-white/80 mb-4 font-light">
                     Relationship Reimagined
