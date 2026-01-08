@@ -1,65 +1,56 @@
-# 🛡️ TEAM ABSOLUTE PROTEIN POWDER - UI HANDOFF GUIDE (v2)
+# 🚀 Team Instructions - "Project US"
 
-**FROM:** Mizi (The Skin)
-**TO:** Fardeen (The Skeleton) & Zarif (The Muscles)
-
-**STATUS: PHASE 2 COMPLETE**
-- ✅ **Auth Pages** (Login/Register) are styled.
-- ✅ **Dashboard** is styled (Grid layout + Cards).
-- ✅ **Admin Logs** are styled (Table + Stats).
-- ✅ **Notifications** are styled (Dropdown).
+**Current State:** UI Rebrand Complete (Phase 8-11).
+**Active Agent:** Mizi (The Skin)
+**Status:** Handoff Mode
 
 ---
 
-## ⚡ IMMEDIATE ACTION REQUIRED
-1.  **Git Sync:** `git checkout main` -> `git pull` -> `git merge UI_Branch` (if not already merged).
-2.  **Verify:** Check `/dashboard` and `/admin/logs` to see the new themes.
+## 🎨 Update from Mizi (The Skin)
+I have essentially rewritten the frontend face of the application.
+-   **Landing Page**: Deep Space/Glass aesthetic with "Heartbeat" animations.
+-   **Auth**: Login/Register pages now match the landing page (No sidebar).
+-   **Resonance Chamber**: The Conflict Chat is now a "Dark Glass" sanctuary with a glowing health bar and "Listening Mode" UI.
+
+**CRITICAL**: The UI is ready, but it is currently mocking data. It needs muscles (Zarif) and brains (Fardeen).
 
 ---
 
-## 💀 FOR FARDEEN (The Skeleton) - Core/Admin
+## 💪 Instructions for Zarif (The Muscles - Backend)
 
-### 1. New Pattern: Admin Tables
-Look at `resources/views/livewire/admin/log-viewer.blade.php`.
-I have set up the standard for displaying data:
-- Use `<x-ui.card>` for stats at the top.
-- Use `<x-ui.table>` for the main list.
-- Use `wire:poll` only if you really need real-time data.
+### 1. Resonance Chamber Wiring
+*   **File**: `app/Livewire/Features/ConflictChat.php`
+*   **View**: `resources/views/livewire/features/conflict-chat.blade.php`
+*   **Task**:
+    -   Connect the **Health Bar** (`$health` variable) to the real `RelationshipHealth` model.
+    -   Implement the logic for **Listening Mode** (`$isLocked`). This should toggle to `true` when the other user is typing long paragraphs or when AI detects high tension.
+    -   Ensure `sendMessage` accurately decrements/increments health based on basic sentiment (or simpler logic for now).
 
-### 2. General Page Structure
-Copy this structure for any new Admin Page:
-```html
-<div class="space-y-6">
-    <div class="flex items-center justify-between">
-        <h2 class="text-2xl font-bold font-display text-secondary-900">Page Title</h2>
-        <x-ui.button>Action</x-ui.button>
-    </div>
-    
-    <x-ui.card>
-        <!-- Content -->
-    </x-ui.card>
-</div>
-```
+### 2. The Vault Backend
+*   **File**: `app/Livewire/Features/Vault.php` (You may need to create/update this)
+*   **Task**:
+    -   The "Rub-to-Reveal" UI is ready in `vault.blade.php`.
+    -   Implement the standard **Encryption** logic for storing these images.
 
 ---
 
-## 💪 FOR ZARIF (The Muscles) - Features/Chat
+## 🧠 Instructions for Fardeen (The Brain - AI)
 
-### 1. Notifications are LIVE
-I styled `livewire/core/notifications.blade.php`.
-- You can trigger a notification using `$dispatch('notify', ...)` as before.
-- The dropdown handles unread states visually now.
+### 1. Aura Intevention
+*   **Context**: The "Resonance Chamber" (`ConflictChat`) now has a slot for `$auraAdvice`.
+*   **Task**:
+    -   Hook up your **Gemini Sentiment Analysis** to the chat stream.
+    -   When tension is high (>80%), populate the `$auraAdvice` variable with a de-escalation prompt.
+    -   **Trigger**: If the User writes a message with "Accusatory Language" (You always, You never), trigger the **Listening Mode** lock and force them to rephrase.
 
-### 2. Chat UI Tips
-For the Chat interface you are building:
-- Use `<x-ui.card>` for the main chat window.
-- Use `<x-ui.input>` with an icon for the message bar.
-- Use `<x-ui.button variant="ghost">` for attachment icons to keep it clean.
+### 2. The Garden Logic
+*   **Context**: `dashboard.blade.php` shows a plant growing.
+*   **Task**:
+    -   Define the **XP Algorithm** based on positive interactions.
+    -   Pass the current growth stage to the view so the icon changes (Seed -> Sprout -> Bloom).
 
 ---
 
-## 🎨 REMINDERS (MIZI'S LAW)
-1.  **Don't break the layout:** Always wrap your pages in `<x-app-layout>`.
-2.  **Don't write CSS:** If you need a margin, use `class="mt-4"`. If you need a color, use `text-secondary-500`.
-
-**-- Mizi**
+## ⚠️ General Notes
+-   **Layouts**: `Login` and `Register` now use `layouts.guest`. Do not revert them to `layouts.app` or the sidebar will break the immersion.
+-   **Icons**: We are using standard SVGs or Heroicons.
