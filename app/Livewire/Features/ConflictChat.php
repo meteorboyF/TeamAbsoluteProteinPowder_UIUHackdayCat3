@@ -4,6 +4,8 @@ namespace App\Livewire\Features;
 
 use Livewire\Component;
 use App\Services\Features\AuraService;
+use App\Services\Features\GamificationService;
+use App\Events\ChatUnlocked;
 
 class ConflictChat extends Component
 {
@@ -18,7 +20,7 @@ class ConflictChat extends Component
         // Initial state
     }
 
-    public function sendMessage(AuraService $auraService)
+    public function sendMessage(AuraService $auraService, GamificationService $gamification)
     {
         if ($this->isLocked || empty(trim($this->newMessage))) {
             return;
@@ -43,16 +45,42 @@ class ConflictChat extends Component
 
         // Clear input
         $this->newMessage = '';
+
+        // Check if conflict is resolved (health at 100%)
+        if ($this->health >= 100) {
+            $gamification->awardXp(
+                auth()->id(),
+                'resolved_conflict',
+                100
+            );
+
+            session()->flash('message', '🎉 Conflict resolved! +100 XP');
+        }
     }
 
     public function unlockChat()
     {
-        // In the real implementation, this would unlock the chat for the OTHER user.
-        // For now, since we are building the core mechanic "button", we will just simulate the action.
-        // Perhaps we can dispatch an event or flash a message.
-        session()->flash('message', 'You have offered empathy. The other user can now speak.');
+        // Broadcast to unlock the OTHER user
+        // Assuming user has a 'partner_id' attribute or relationship
+        // Fallback to ID+1 or similar for demo if partner_id is missing, but adhering to USER REQUEST:
+        $partnerId = auth()->user()->partner_id ?? null;
 
-        // Note: In a real-time app, this would use broadcasting to unlock the other client.
+        if ($partnerId) {
+            broadcast(new ChatUnlocked($partnerId));
+        }
+
+        // Award XP for resolving conflict
+        $gamification = app(GamificationService::class);
+        $gamification->awardXp(auth()->id(), 'resolved_conflict', 100);
+
+        session()->flash('message', 'You have offered empathy. The other user can now speak.');
+        // We do NOT unlock ourselves here necessarily, as the instruction implies we unlock the OTHER user.
+        // But usually, if I offer empathy, I might wait for them.
+        // The user request said: "The input field must disable after the user sends 1 message."
+        // And "Empathy Button: A button that unlocks the chat for the other user."
+
+        // However, usually in turn based, offering empathy might not unlock ME.
+        // But for testing/demo, we leave the flash message.
     }
 
     protected function updateHealth($message)
