@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Blade;
 
 Route::middleware(['web', 'auth'])->group(function () {
+    // Project US: Conflict Resolution Chat
+    Route::get('/conflict-chat', \App\Livewire\Features\ConflictChat::class)->name('features.conflict-chat');
+
     // Zarif's Feature Routes (Chat, Uploads, Feeds)
 
     Route::get('/features/test', function () {
