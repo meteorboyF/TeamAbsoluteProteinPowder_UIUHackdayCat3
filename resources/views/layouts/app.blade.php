@@ -58,6 +58,18 @@
                                                 Design System
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('features.vault') }}"
+                                                class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.vault') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                                The Vault
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('features.space') }}"
+                                                class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.space') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                                The Space
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -97,6 +109,18 @@
                                     <a href="{{ route('components.design') }}"
                                         class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('components.design') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
                                         Design System
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('features.vault') }}"
+                                        class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.vault') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                        The Vault
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('features.space') }}"
+                                        class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.space') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                        The Space
                                     </a>
                                 </li>
                             </ul>

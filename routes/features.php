@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Blade;
 Route::middleware(['web', 'auth'])->group(function () {
     // Project US: Conflict Resolution Chat
     Route::get('/conflict-chat', \App\Livewire\Features\ConflictChat::class)->name('features.conflict-chat');
+    
+    // Project US: The Vault
+    Route::get('/features/vault', \App\Livewire\Features\Vault::class)->name('features.vault');
+
+    // Project US: The Space (Ghost Mode)
+    Route::get('/features/space', \App\Livewire\Features\Space::class)->name('features.space');
 
     // Zarif's Feature Routes (Chat, Uploads, Feeds)
 
