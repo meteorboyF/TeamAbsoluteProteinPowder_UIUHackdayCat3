@@ -106,3 +106,12 @@
         </button>
     </div>
 </div>
+
+@script
+<script>
+    Echo.private('user.{{ auth()->id() }}')
+        .listen('ChatUnlocked', (e) => {
+            $wire.set('isLocked', false);
+        });
+</script>
+@endscript
