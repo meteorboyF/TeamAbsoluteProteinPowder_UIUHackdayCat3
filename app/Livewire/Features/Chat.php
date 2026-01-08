@@ -32,8 +32,6 @@ class Chat extends Component
         $service->sendMessage($this->model, $this->newMessage, $userId);
 
         $this->newMessage = '';
-
-        $this->dispatch('notify', type: 'success', message: 'Message sent!');
     }
 
     public function render(ChatService $service)

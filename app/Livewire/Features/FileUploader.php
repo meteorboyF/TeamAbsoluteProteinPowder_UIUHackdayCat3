@@ -55,9 +55,6 @@ class FileUploader extends Component
 
         $this->photos = [];
         $this->refreshUploads();
-
-        $this->dispatch('close-modal', 'upload-modal-' . $this->model->id);
-        $this->dispatch('notify', type: 'success', message: 'Files uploaded successfully!');
     }
 
     public function deleteUpload($id)

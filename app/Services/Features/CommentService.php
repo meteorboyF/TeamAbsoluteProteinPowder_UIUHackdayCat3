@@ -6,18 +6,8 @@ use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-use App\Services\Core\NotificationService;
-use App\Models\User;
-
 class CommentService
 {
-    protected $notificationService;
-
-    public function __construct(NotificationService $notificationService)
-    {
-        $this->notificationService = $notificationService;
-    }
-
     /**
      * Create a new comment for a given model.
      *
@@ -36,23 +26,6 @@ class CommentService
         ]);
 
         $target->comments()->save($comment);
-
-        // Notify parent author if this is a reply
-        if ($parentId) {
-            $parent = Comment::find($parentId);
-            if ($parent && $parent->user_id != $userId) {
-                $parentAuthor = User::find($parent->user_id);
-                if ($parentAuthor) {
-                    $this->notificationService->send(
-                        $parentAuthor,
-                        'New Reply',
-                        'Someone replied to your comment: ' . substr($content, 0, 30) . '...',
-                        null,
-                        'info'
-                    );
-                }
-            }
-        }
 
         return $comment;
     }

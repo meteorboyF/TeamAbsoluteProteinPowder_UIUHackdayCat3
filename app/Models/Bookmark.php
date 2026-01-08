@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+
+class Bookmark extends Model
+{
+    protected $fillable = [
+        'user_id',
+        'bookmarkable_id',
+        'bookmarkable_type',
+        'folder', // Optional: 'Design', 'Recipes'
+    ];
+
+    public function bookmarkable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+}

@@ -6,18 +6,8 @@ use App\Models\Message;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-use App\Services\Core\NotificationService;
-use App\Models\User;
-
 class ChatService
 {
-    protected $notificationService;
-
-    public function __construct(NotificationService $notificationService)
-    {
-        $this->notificationService = $notificationService;
-    }
-
     /**
      * Send a new message to a channel.
      *
@@ -34,24 +24,6 @@ class ChatService
         ]);
 
         $channel->messages()->save($message);
-
-        // Notify other members
-        if (isset($channel->member_ids) && is_array($channel->member_ids)) {
-            foreach ($channel->member_ids as $memberId) {
-                if ($memberId != $userId) {
-                    $user = User::find($memberId);
-                    if ($user) {
-                        $this->notificationService->send(
-                            $user,
-                            'New Message in ' . ($channel->name ?? 'Chat'),
-                            substr($body, 0, 50) . '...',
-                            route('dashboard'), // Todo: Deep link to chat
-                            'info'
-                        );
-                    }
-                }
-            }
-        }
 
         return $message;
     }

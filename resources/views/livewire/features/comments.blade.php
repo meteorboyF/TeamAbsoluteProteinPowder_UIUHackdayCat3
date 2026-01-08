@@ -1,4 +1,4 @@
-<div wire:poll.2s class="p-4 bg-white shadow rounded-lg">
+<div wire:poll.3s class="p-4 bg-white shadow rounded-lg border border-secondary-200">
     <div class="space-y-6">
         <h3 class="font-bold text-lg text-secondary-800">Comments ({{ $comments->count() }})</h3>
 
@@ -34,7 +34,7 @@
                                     class="font-bold text-sm text-secondary-900">{{ $comment->user->name ?? 'Anonymous' }}</span>
                                 <span class="text-xs text-secondary-400">{{ $comment->created_at->diffForHumans() }}</span>
                             </div>
-                            <p class="text-sm text-secondary-700">{{ $comment->body }}</p>
+                            <p class="text-sm text-secondary-700">{{ $comment->body ?? $comment->content }}</p>
                         </div>
 
                         <div class="flex items-center gap-4 mt-1 ml-1">
@@ -48,13 +48,14 @@
                         @if($replyingTo === $comment->id)
                             <div class="mt-3 flex gap-3 ml-2">
                                 <div class="flex-1 space-y-2">
-                                    <x-ui.textarea placeholder="Write a reply..." wire:model="replyComment" rows="1"
-                                        autofocus />
+                                    <!-- REUSED newComment property since we're in reply mode -->
+                                    <x-ui.textarea placeholder="Write a reply..." wire:model="newComment" rows="1" autofocus />
                                     <div class="flex justify-end gap-2">
                                         <x-ui.button wire:click="cancelReply" variant="ghost" size="xs">
                                             Cancel
                                         </x-ui.button>
-                                        <x-ui.button wire:click="postReply" variant="primary" size="xs">
+                                        <!-- Calls postComment which handles reply logic based on replyingTo state -->
+                                        <x-ui.button wire:click="postComment" variant="primary" size="xs">
                                             Reply
                                         </x-ui.button>
                                     </div>
@@ -79,7 +80,7 @@
                                                     <span
                                                         class="text-[10px] text-secondary-400">{{ $reply->created_at->diffForHumans() }}</span>
                                                 </div>
-                                                <p class="text-sm text-secondary-700">{{ $reply->body }}</p>
+                                                <p class="text-sm text-secondary-700">{{ $reply->body ?? $reply->content }}</p>
                                             </div>
                                         </div>
                                     </div>

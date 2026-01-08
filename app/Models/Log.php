@@ -3,35 +3,30 @@
 namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class Log extends BaseModel
+class Log extends Model
 {
     protected $fillable = [
+        'user_id',
+        'type', // e.g., 'comment_posted', 'project_created'
+        'description',
         'subject_id',
-        'subject_type', // The object being acted upon (e.g., User, Invoice)
-        'causer_id',
-        'causer_type',  // Who performed the action (e.g., User, Admin)
-        'description',  // Human-readable description
-        'properties',   // Extra data (JSON/Array)
+        'subject_type', // Polymorphic subject (Project, Ticket, etc.)
+        'meta', // Additional data (links, old_values, etc.)
     ];
 
     protected $casts = [
-        'properties' => 'array',
+        'meta' => 'array',
     ];
 
-    /**
-     * The model being tracked.
-     */
-    public function subject()
+    public function subject(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
-     * The user who performed the action.
-     */
-    public function causer()
+    public function user()
     {
-        return $this->morphTo();
+        return $this->belongsTo(User::class); // Assuming User is standard model
     }
 }
