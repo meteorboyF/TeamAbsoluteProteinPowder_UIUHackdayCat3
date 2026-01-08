@@ -3,9 +3,57 @@
 namespace App\Services\Features;
 
 use Illuminate\Support\Facades\Http;
+use App\Models\User;
 
 class AuraService
 {
+    protected $moodService;
+
+    public function __construct(MoodService $moodService)
+    {
+        $this->moodService = $moodService;
+    }
+    /**
+     * Calculate Aura Alignment Score
+     */
+    public function getAuraAlignment(int $userId): array
+    {
+        $user = User::find($userId);
+        $partner = $user?->partner;
+
+        if (!$partner) {
+            return ['alignment' => 0, 'message' => 'No partner linked'];
+        }
+
+        // Get today's mood
+        $userMoodData = $this->moodService->getMoodTimeline($userId, 1);
+        $partnerMoodData = $this->moodService->getMoodTimeline($partner->id, 1);
+
+        $userMood = $userMoodData[0]['mood'] ?? null;
+        $partnerMood = $partnerMoodData[0]['mood'] ?? null;
+
+        if (!$userMood || !$partnerMood) {
+            return ['alignment' => 0, 'message' => 'One of you hasn\'t checked in today.'];
+        }
+
+        if ($userMood === $partnerMood) {
+            return ['alignment' => 100, 'message' => 'Your auras are perfectly aligned today! Perfect time for a date.'];
+        }
+
+        // Check compatibility (simple map)
+        $compatible = [
+            'happy' => ['excited', 'content'],
+            'sad' => ['neutral', 'calm'],
+            'neutral' => ['calm', 'happy'],
+        ];
+
+        if (in_array($partnerMood, $compatible[$userMood] ?? [])) {
+            return ['alignment' => 75, 'message' => 'Your energies are complementary. Good time to talk.'];
+        }
+
+        return ['alignment' => 40, 'message' => 'Your moods are quite different. Approach with empathy.'];
+    }
+
     /**
      * Analyze the conflict conversation and return AI-powered advice.
      *

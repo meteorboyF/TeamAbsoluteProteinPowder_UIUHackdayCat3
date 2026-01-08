@@ -17,6 +17,8 @@ class Message extends Model
         'user_id',
         'chatable_id',
         'chatable_type',
+        'emotion', // Added for Project US: Resonance
+        'metadata', // Added for Project US: Flexibility
     ];
 
     /**

@@ -6,13 +6,14 @@ use App\Models\VaultItem;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
 
 class VaultService
 {
     /**
      * Upload a file to the vault with optional time-lock
      */
-    public function uploadItem(int $userId, UploadedFile $file, ?string $unlockDate = null): VaultItem
+    public function uploadItem(int $userId, UploadedFile $file, ?string $unlockDate = null, ?int $unlockLevel = null): VaultItem
     {
         // Store file in private storage
         $path = $file->store('vault', 'private');
@@ -22,7 +23,30 @@ class VaultService
             'type' => $this->determineType($file),
             'file_path' => $path,
             'unlock_at' => $unlockDate ? Carbon::parse($unlockDate) : null,
+            'unlock_level' => $unlockLevel,
             'is_hidden' => true, // Default to hidden (rub-to-reveal)
+        ]);
+    }
+
+    /**
+     * Store a text secret (encrypted)
+     */
+    public function storeSecret(int $userId, string $content, ?string $unlockDate = null, ?int $unlockLevel = null): VaultItem
+    {
+        $encryptedContent = Crypt::encryptString($content);
+
+        // Save as a text file in storage to keep uniformity with file_path
+        $fileName = 'secret_' . time() . '.txt';
+        $path = 'vault/' . $fileName;
+        Storage::disk('private')->put($path, $encryptedContent);
+
+        return VaultItem::create([
+            'user_id' => $userId,
+            'type' => 'secret',
+            'file_path' => $path,
+            'unlock_at' => $unlockDate ? Carbon::parse($unlockDate) : null,
+            'unlock_level' => $unlockLevel,
+            'is_hidden' => false, // Secrets might not need rub-to-reveal, just lock
         ]);
     }
 
@@ -60,7 +84,20 @@ class VaultService
             return false;
         }
 
-        return $item->isUnlocked();
+        // Check time lock
+        if ($item->unlock_at && $item->unlock_at->isFuture()) {
+            return false;
+        }
+
+        // Check level lock
+        if ($item->unlock_level) {
+            $userLevel = app(GamificationService::class)->getUserLevel($item->user_id);
+            if ($userLevel < $item->unlock_level) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -81,6 +118,23 @@ class VaultService
     /**
      * Get file URL for display
      */
+    /**
+     * Get file URL or Content for display
+     */
+    public function getItemContent(VaultItem $item): string|array
+    {
+        if ($item->type === 'secret') {
+            try {
+                $encrypted = Storage::disk('private')->get($item->file_path);
+                return ['text' => Crypt::decryptString($encrypted)];
+            } catch (\Exception $e) {
+                return ['error' => 'Could not decrypt secret.'];
+            }
+        }
+
+        return ['url' => Storage::disk('private')->url($item->file_path)];
+    }
+
     private function getFileUrl(VaultItem $item): string
     {
         return Storage::disk('private')->url($item->file_path);
