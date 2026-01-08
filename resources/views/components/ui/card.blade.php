@@ -3,7 +3,7 @@
     'footer' => null,
 ])
 
-<div {{ $attributes->merge(['class' => 'bg-white overflow-hidden shadow-sm rounded-xl border border-secondary-200']) }}>
+<div {{ $attributes->merge(['class' => 'bg-white dark:bg-white/10 dark:backdrop-blur-xl overflow-hidden shadow-sm rounded-xl border border-secondary-200 dark:border-white/20']) }}>
     @if ($title)
         <div class="px-4 py-4 sm:px-6 border-b border-secondary-100 bg-secondary-50/50">
             <h3 class="text-base font-semibold leading-6 text-secondary-900 font-display">

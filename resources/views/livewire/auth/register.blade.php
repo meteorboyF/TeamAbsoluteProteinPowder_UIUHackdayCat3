@@ -1,10 +1,8 @@
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-secondary-50">
-    <div class="text-center mb-8">
-        <a href=""
-            class="text-4xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
-            Project US
-        </a>
-        <p class="mt-2 text-secondary-600">Begin your journey together</p>
+<div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-secondary-900 font-display">
+            Create your account
+        </h2>
     </div>
 
     <x-ui.card
