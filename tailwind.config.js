@@ -3,6 +3,7 @@ import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'selector',
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
@@ -18,17 +19,20 @@ export default {
             },
             colors: {
                 primary: {
-                    50: '#f0f9ff',
-                    100: '#e0f2fe',
-                    500: '#0ea5e9',
-                    600: '#0284c7',
-                    700: '#0369a1',
+                    50: '#fff1f2',
+                    100: '#ffe4e6',
+                    500: '#ad2831',
+                    600: '#800e13',
+                    700: '#640d14',
                 },
                 secondary: {
-                    50: '#f8fafc',
-                    100: '#f1f5f9',
-                    500: '#64748b',
-                    600: '#475569',
+                    50: '#fdf2f2',
+                    100: '#fce7e7',
+                    500: '#9f1239',
+                    600: '#881337',
+                    800: '#38040e',
+                    900: '#250902',
+                    950: '#1a0601',
                 },
             }
         },
