@@ -58,6 +58,36 @@
                                                 Design System
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('features.vault') }}"
+                                                class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.vault') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                                The Vault
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('features.space') }}"
+                                                class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.space') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                                The Space
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('features.garden') }}"
+                                                class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.garden') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                                The Garden
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('features.rituals') }}"
+                                                class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.rituals') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                                Daily Rituals
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('features.cupid') }}"
+                                                class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.cupid') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                                AI Cupid
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -97,6 +127,36 @@
                                     <a href="{{ route('components.design') }}"
                                         class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('components.design') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
                                         Design System
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('features.vault') }}"
+                                        class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.vault') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                        The Vault
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('features.space') }}"
+                                        class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.space') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                        The Space
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('features.garden') }}"
+                                        class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.garden') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                        The Garden
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('features.rituals') }}"
+                                        class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.rituals') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                        Daily Rituals
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('features.cupid') }}"
+                                        class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold {{ request()->routeIs('features.cupid') ? 'bg-secondary-50 text-secondary-600' : 'text-secondary-700 hover:text-primary-600 hover:bg-secondary-50' }}">
+                                        AI Cupid
                                     </a>
                                 </li>
                             </ul>
