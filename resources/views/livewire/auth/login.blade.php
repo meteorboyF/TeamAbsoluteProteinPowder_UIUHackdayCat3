@@ -1,60 +1,61 @@
-<div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-secondary-900 font-display">
-            Sign in to your account
-        </h2>
+<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-secondary-50">
+    <div class="text-center mb-8">
+        <a href=""
+            class="text-4xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+            Project US
+        </a>
+        <p class="mt-2 text-secondary-600">Where 1+1 = ∞</p>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <x-ui.card>
-            <form class="space-y-6" wire:submit.prevent="login">
-                
-                <x-ui.input label="Email address" 
-                            name="email" 
-                            type="email" 
-                            wire:model="email" 
-                            required 
-                            autofocus />
+    <x-ui.card
+        class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-xl overflow-hidden sm:rounded-2xl border border-secondary-100">
+        <h2 class="text-2xl font-bold text-secondary-900 mb-6 text-center">Welcome Back</h2>
 
-                <x-ui.input label="Password" 
-                            name="password" 
-                            type="password" 
-                            wire:model="password" 
-                            required />
+        <form wire:submit="login">
+            <!-- Email Address -->
+            <div>
+                <x-ui.input-label for="email" value="{{ __('Email') }}" />
+                <x-ui.text-input id="email" class="block mt-1 w-full" type="email" name="email" wire:model="email"
+                    required autofocus autocomplete="username" placeholder="you@example.com" />
+                <x-ui.input-error :messages="$errors->get('email')" class="mt-2" />
+            </div>
 
-                <div class="flex items-center justify-between">
-                    <x-ui.checkbox label="Remember me" 
-                                   name="remember" 
-                                   wire:model="remember" />
+            <!-- Password -->
+            <div class="mt-4">
+                <x-ui.input-label for="password" value="{{ __('Password') }}" />
+                <x-ui.text-input id="password" class="block mt-1 w-full" type="password" name="password"
+                    wire:model="password" required autocomplete="current-password" placeholder="••••••••" />
+                <x-ui.input-error :messages="$errors->get('password')" class="mt-2" />
+            </div>
 
-                    <div class="text-sm">
-                        <a href="#" class="font-medium text-primary-600 hover:text-primary-500">
-                            Forgot your password?
-                        </a>
-                    </div>
-                </div>
-                
-                @if($errors->any())
-                    <x-ui.alert type="error" title="Error">
-                        {{ $errors->first() }}
-                    </x-ui.alert>
-                @endif
+            <!-- Remember Me -->
+            <div class="block mt-4">
+                <label for="remember" class="inline-flex items-center">
+                    <input id="remember" type="checkbox" wire:model="remember"
+                        class="rounded border-secondary-300 text-purple-600 shadow-sm focus:ring-purple-500">
+                    <span class="ms-2 text-sm text-secondary-600">{{ __('Remember me') }}</span>
+                </label>
+            </div>
 
-                <div>
-                    <x-ui.button type="submit" class="w-full justify-center">
-                        Sign in
-                    </x-ui.button>
-                </div>
-            </form>
-
-            <x-slot name="footer">
-                <div class="text-center text-sm">
-                    <span class="text-secondary-600">Don't have an account?</span>
-                    <a href="{{ route('register') }}" class="font-medium text-primary-600 hover:text-primary-500">
-                        Register
+            <div class="flex items-center justify-end mt-4 mb-4">
+                @if (Route::has('password.request'))
+                    <a class="underline text-sm text-secondary-600 hover:text-secondary-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                        href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
                     </a>
-                </div>
-            </x-slot>
-        </x-ui.card>
-    </div>
+                @endif
+            </div>
+
+            <x-ui.button class="w-full justify-center py-3 text-lg">
+                {{ __('Log in') }}
+            </x-ui.button>
+        </form>
+
+        <div class="mt-6 text-center text-sm text-secondary-600">
+            Don't have an account?
+            <a href="{{ route('register') }}" class="font-bold text-purple-600 hover:text-purple-500">
+                Sign up
+            </a>
+        </div>
+    </x-ui.card>
 </div>
