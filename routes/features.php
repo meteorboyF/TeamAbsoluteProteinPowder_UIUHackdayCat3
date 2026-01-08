@@ -13,6 +13,15 @@ Route::middleware(['web', 'auth'])->group(function () {
     // Project US: The Space (Ghost Mode)
     Route::get('/features/space', \App\Livewire\Features\Space::class)->name('features.space');
 
+    // Project US: The Garden (Gamification)
+    Route::get('/features/garden', \App\Livewire\Features\Garden::class)->name('features.garden');
+
+    // Project US: Daily Rituals (Mood Check-in)
+    Route::get('/features/rituals', \App\Livewire\Features\DailyRitual::class)->name('features.rituals');
+
+    // Project US: AI Cupid (Smart Suggestions)
+    Route::get('/features/cupid', \App\Livewire\Features\AiCupid::class)->name('features.cupid');
+
     // Zarif's Feature Routes (Chat, Uploads, Feeds)
 
     Route::get('/features/test', function () {
